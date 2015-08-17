@@ -1,0 +1,844 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="fiche_paie_tree">
+            <field name="name">fiche_paie.tree</field>
+            <field name="model">py.dacom.fiche_paie</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="liste damancom">
+                    <field name="ID"/>
+                    <field name="CIN"/>
+                    <field name="Periode"/>
+                    <field name="num_assure"/>
+                    <field name="nom_pre"/>
+                    <field name="nombre_enfants"/>
+                    <field name="mnt_AF_payer"/>
+                    <field name="mnt_AF_deduire"/>
+                    <field name="mnt_AF_net_payer"/>
+                    <field name="mnt_AF_rev"/>
+                    <field name="nbr_dec"/>
+                    <field name="sal_reel"/>
+                    <field name="sal_plafonne"/>
+                    <field name="situation"/>
+                    <field name="list_date_entree_paie"/>
+                    <field name="list_date_sortie_paie"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!--La class import_edbs_tree-->
+        <record model="ir.ui.view" id="import_edbs_tree">
+            <field name="name">import_edbs.tree</field>
+            <field name="model">py.dacom.import_edbs</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="liste import_edbs">
+                    <field name="L_Type_ Enreg"/>
+                    <field name="N_Num_Affilie"/>
+                    <field name="Periode"/>
+                    <field name="N_Num_Assure"/>
+                    <field name="L_Nom_Prenom"/>
+                    <field name="N_Enfants"/>
+                    <field name="N_AF_A_Payer"/>
+                    <field name="N_AF_A_Deduire"/>
+                    <field name="N_AF_Net_A_Payer"/>
+                    <button string="edbs" name="edbs" type="object"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_import_edbs_seq">
+            <field name="name">action import_edbs</field>
+            <field name="res_model">py.dacom.import_edbs</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="import_edbs_tree"/>            
+        </record> 
+        
+        <!--La fin de la class import_edbs_tree-->
+        
+      
+         <record model="ir.ui.view" id="fiche_paie_tree3">
+            <field name="name">recherche_perso.tree</field>
+            <field name="model">py.dacom.recherche_perso_2</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="liste test_user">
+                    <field name="num_assure"/>
+                    <field name="nom_pre"/>
+                    <field name="nombre_enfants"/>
+                    <field name="mnt_AF_payer"/>
+                    <field name="mnt_AF_deduire"/>
+                    <field name="mnt_AF_net_payer"/>
+                    <field name="mnt_AF_rev"/>
+                    <field name="nbr_dec"/>
+                    <field name="sal_reel"/>
+                    <field name="sal_plafonne"/>
+                    <field name="situation"/>
+                    <button string="us" name="us" type="object"/>
+                </tree>
+            </field>
+        </record>
+       
+    	
+
+       <record model="ir.actions.act_window" id="action_damancom_seq">
+            <field name="name">action damancom</field>
+            <field name="res_model">py.dacom.fiche_paie</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="fiche_paie_tree"/>
+        </record> 
+        
+        
+        <record model="ir.ui.view" id="fiche_paie_search">
+            <field name="name">fiche_paie.search</field>
+            <field name="model">py.dacom.fiche_paie</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="liste search">
+                    <filter string="Marié" name="situation" domain="[('situation','=','M')]"/>
+                </search>
+            </field>
+        </record>
+      <!--la class enreg_a00 -->
+       <record model="ir.ui.view" id="enreg_a00_tree">
+            <field name="name">enreg_a00.tree</field>
+            <field name="model">py.dacom.enreg_a00</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="liste enreg_a00">
+                    <field name="L_Type_EnregA00"/>
+                    <field name="N_Identif_TransfertA00"/>
+                    <field name="L_CatA00"/>
+                </tree>
+            </field>
+     </record>
+     
+         <record model="ir.actions.act_window" id="action_enreg_a00_seq">
+            <field name="name">action enreg_a00</field>
+            <field name="res_model">py.dacom.enreg_a00</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="enreg_a00_tree"/>            
+        </record> 
+       
+       <!--fin de la class enreg_a00 -->
+      <!--la class enreg_a01 -->
+       <record model="ir.ui.view" id="enreg_a01_tree">
+            <field name="name">enreg_a01.tree</field>
+            <field name="model">py.dacom.enreg_a01</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="liste enreg_a01">
+                    <field name="L_Type_EnregA01"/>
+                    <field name="N_Num_AffilieA01"/>
+                    <field name="L_PeriodeA01"/>
+                    <field name="L_Raison_SocialeA01"/>
+                    <field name="L_ActiviteA01"/>
+                    <field name="L_AdresseA01"/>
+                    <field name="L_VilleA01"/>
+                    <field name="C_Code_PostalA01"/>
+                    <field name="C_Code_AgenceA01"/>
+                    <field name="D_Date_EmissionA01"/>
+                    <field name="D_Date_ExigA01"/>
+                </tree>
+            </field>
+     </record>
+     
+         <record model="ir.actions.act_window" id="action_enreg_a01_seq">
+            <field name="name">action enreg_a01</field>
+            <field name="res_model">py.dacom.enreg_a01</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="enreg_a01_tree"/>            
+        </record> 
+       
+       <!--fin de la class enreg_a01 -->
+       
+       <!--la class enreg_a03 -->
+       <record model="ir.ui.view" id="enreg_a03_tree">
+            <field name="name">enreg_a03.tree</field>
+            <field name="model">py.dacom.enreg_a03</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="liste enreg_a03">
+                    <field name="L_Type_EnregA03"/>
+                    <field name="N_Num_AffilieA03"/>
+                    <field name="L_PeriodeA03"/>
+                    <field name="N_Nbr_SalariesA03"/>
+                    <field name="N_T_EnfantsA03"/>
+                    <field name="N_T_AF_A_PayerA03"/>
+                    <field name="N_T_AF_A_DeduireA03"/>
+                    <field name="N_T_AF_Net_A_PayerA03"/>
+                    <field name="N_T_Num_ImmaA03"/>
+                </tree>
+            </field>
+     </record>
+     
+         <record model="ir.actions.act_window" id="action_enreg_a03_seq">
+            <field name="name">action enreg_a03</field>
+            <field name="res_model">py.dacom.enreg_a03</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="enreg_a03_tree"/>            
+        </record> 
+       
+       <!--fin de la class enreg_a03 -->
+     <!--wizard-->
+     <record id="wizard_idea_cleanup" model="ir.ui.view">
+    	<field name="name">wiz</field>
+    	<field name="model">wiz</field>
+    	<field name="type">form</field>
+    	<field name="arch" type="xml">
+			<form string="wiz">
+			    <label colspan="4" string="Enter le chemin de votre fichier"/>
+			    <field name="chemin" string="chemin"/>
+			          <group colspan="4">
+			              <button string="Cancel" special="cancel"/>
+			               <button string="Valider" name="valider" type="object"/>
+			            </group>
+			  </form>
+		 </field>
+	</record>
+
+	<record model="ir.actions.act_window" id="wiz">
+		    <field name="name">wizard</field>
+		    <field name="type">ir.actions.act_window</field>
+		    <field name="res_model">wiz</field>
+		    <field name="view_type">form</field>
+		    <field name="view_mode">form</field>
+		    <field name="target">new</field>
+		</record>
+		
+		<!--fin wizard-->
+		
+		<!--wizard test 3 -->
+		<record id="wizard_enreg_b02" model="ir.ui.view">
+    	<field name="name">wiz_enreg_b02</field>
+    	<field name="model">wiz</field>
+    	<field name="type">form</field>
+    	<field name="arch" type="xml">
+			<form string="wiz">
+			    <label colspan="4" string="Enter le chemin de votre fichier"/>
+			    <field name="chemin" string="chemin"/>
+			          <group colspan="4">
+			              <button string="Cancel" special="cancel"/>
+			               <button string="Valider" name="valider" type="object"/>
+			            </group>
+			  </form>
+		 </field>
+	</record>
+
+	<record model="ir.actions.act_window" id="wiz">
+		    <field name="name">wizard</field>
+		    <field name="type">ir.actions.act_window</field>
+		    <field name="res_model">wiz</field>
+		    <field name="view_type">form</field>
+		    <field name="view_mode">form</field>
+		    <field name="target">new</field>
+	    </record>
+		
+		<!--la fin wizard test 3 -->
+ 		
+               
+        
+        <!-- la classe recherche_perso_2 -->
+ 		<record model="ir.ui.view" id="recherche_perso_2_tree">
+            <field name="name">recherche_perso_2.tree</field>
+            <field name="model">py.dacom.recherche_perso_2</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="liste recherche_perso_2">
+                    <field name="ID"/>
+                    <field name="CIN"/>
+                    <field name="num_assure"/>
+                    <field name="nom_pre"/>
+                    <field name="nombre_enfants"/>
+                    <field name="mnt_AF_payer"/>
+                    <field name="mnt_AF_deduire"/>
+                    <field name="mnt_AF_net_payer"/>
+                    <field name="mnt_AF_rev"/>
+                    <field name="nbr_dec"/>
+                    <field name="sal_reel"/>
+                    <field name="sal_plafonne"/>
+                    <field name="situation"/>
+                    <button string="trouver" name="trouver" type="object"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.actions.act_window" id="action_recherche_perso_2_seq">
+            <field name="name">action recherche_perso_2</field>
+            <field name="res_model">py.dacom.recherche_perso_2</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="recherche_perso_2_tree"/>
+            
+        </record> 
+        <!--la fin methode recherche_perso_2 -->
+		
+		
+       
+       
+       <!--la class enreg_b02 -->
+       <record model="ir.ui.view" id="enreg_b02_tree">
+            <field name="name">enreg_b02.tree</field>
+            <field name="model">py.dacom.enreg_b02</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="liste enreg_b02">
+                    
+                    <field name="L_Type_ Enreg"/>
+                    <field name="N_Num_Affilie"/>
+                    <field name="Periode"/>
+                    <field name="N_Num_Assure"/>
+                    <field name="L_Nom_Prenom"/>
+                    <field name="N_Enfants"/>
+                    <field name="N_AF_A_Payer"/>
+                    <field name="N_AF_A_Deduire"/>
+                    <field name="N_AF_Net_A_Payer"/>
+                    <field name="N_AF_A_Reverser"/>
+                    <field name="N_Jours_Declares"/>
+                    <field name="N_Salaire_Reel"/>
+                    <field name="N_Salaire_Plaf"/>
+                    <field name="L_Situation"/>
+                    <field name="S_Ctr"/>                
+                </tree>
+            </field>
+        </record>
+        
+         <record model="ir.actions.act_window" id="action_enreg_b02_seq">
+            <field name="name">action enreg_b02</field>
+            <field name="res_model">py.dacom.enreg_b02</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="enreg_b02_tree"/>            
+        </record> 
+       
+       <!--fin de la class enreg_b02 -->
+       
+       
+       <record model="ir.actions.act_window" id="action_damancomba_seq">
+            <field name="name">action damancomba</field>
+            <field name="res_model">py.dacom.fiche_paie</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="fiche_paie_tree"/>
+            <field name="domain">[('situation','=','M')]</field>
+            
+        </record> 
+        
+        
+        <!--enreg_b022-->
+        <record model="ir.ui.view" id="enreg_b02_2_tree">
+            <field name="name">enreg_b02_2.tree</field>
+            <field name="model">py.dacom.enreg_b02_2</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="liste enreg_b02_2">
+                    <field name="L_Type_ Enreg"/>
+                    <field name="N_Num_Affilie"/>
+                    <field name="Periode"/>
+                    <field name="N_Num_Assure"/>
+                    <field name="L_Nom_Prenom"/>
+                    <field name="N_Enfants"/>
+                    <field name="N_AF_A_Payer"/>
+                    <field name="N_AF_A_Deduire"/>
+                    <field name="N_AF_Net_A_Payer"/>
+                    <field name="N_AF_A_Reverser"/>
+                    <field name="N_Jours_Declares"/>
+                    <field name="N_Salaire_Reel"/>
+                    <field name="N_Salaire_Plaf"/>
+                    <field name="L_Situation"/>
+                    <field name="S_Ctr"/>
+                    <button string="enrgi" name="enrgi" type="object"/>
+                </tree>
+            </field>
+        </record>
+        
+         <record model="ir.actions.act_window" id="action_enreg_b02_2_seq">
+            <field name="name">action enreg_b02_2</field>
+            <field name="res_model">py.dacom.enreg_b02_2</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="enreg_b02_2_tree"/>            
+        </record> 
+        
+        
+        <!-- fin enreg_b02_2-->
+        
+        <!--edbs 04 -->
+        <record model="ir.ui.view" id="enreg_b04_tree">
+            <field name="name">enreg_b04.tree</field>
+            <field name="model">py.dacom.enreg_b04</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="liste enreg_b04">
+                    <field name="L_Type_ Enreg"/>
+                    <field name="N_Num_Affilie"/>
+                    <field name="Periode"/>
+                    <field name="N_Num_Assure"/>
+                    <field name="L_Nom_Prenom"/>
+                    <field name="L_Num_CIN"/>
+                    <field name="N_Jours_Declares"/>
+                    <field name="N_Salaire_Reel"/>
+                    <field name="N_Salaire_Plaf"/>
+                    <field name="S_Ctr"/>
+                    <button string="enre" name="enre" type="object"/>
+                </tree>
+            </field>
+        </record>
+        
+         <record model="ir.actions.act_window" id="action_enreg_b04_seq">
+            <field name="name">action enreg_b04</field>
+            <field name="res_model">py.dacom.enreg_b04</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="enreg_b04_tree"/>            
+        </record> 
+        
+        
+        
+        <!--la fin de la edbs 04 -->
+        
+		<!--enreg_b03-->
+		<record model="ir.ui.view" id="enreg_b03_tree">
+            <field name="name">enreg_b03.tree</field>
+            <field name="model">py.dacom.enreg_b03</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="liste enreg_b03">
+                    <field name="L_Type_ Enreg"/>
+                    <field name="N_Num_Affilie"/>
+                    <field name="Periode"/>
+                    <field name="N_T_Enfants"/>
+                    <field name="N_T_AF_A_Payer"/>
+                    <field name="N_T_AF_A_Reverser"/>
+                    <field name="N_T_Num_Imma"/>
+                    <field name="N_T_Jours_Declares"/>
+                    <field name="N_T_Salaire_Reel"/>
+                    <field name="N_T_Salaire_Plaf"/>
+                    <field name="N_T_Ctr"/>
+                </tree>
+            </field>
+        </record>
+        
+         <record model="ir.actions.act_window" id="action_enreg_b03_seq">
+            <field name="name">action enreg_b03</field>
+            <field name="res_model">py.dacom.enreg_b03</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="enreg_b03_tree"/>            
+        </record> 
+        
+		
+		<!--fin enreg_b03 -->
+		<!-- enreg_b05-->
+		
+		<record model="ir.ui.view" id="enreg_b05_tree">
+            <field name="name">enreg_b05.tree</field>
+            <field name="model">py.dacom.enreg_b05</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="liste enreg_b05">
+                    <field name="L_Type_ Enreg"/>
+                    <field name="N_Num_Affilie"/>
+                    <field name="Periode"/>
+                    <field name="N_Nbr_Salaries"/>               
+                    <field name="N_T_Num_Imma"/>
+                    <field name="N_T_Jours_Declares"/>
+                    <field name="N_T_Salaire_Reel"/>
+                    <field name="N_T_Salaire_Plaf"/>
+                    <field name="N_T_Ctr"/>
+                </tree>
+            </field>
+        </record>
+        
+         <record model="ir.actions.act_window" id="action_enreg_b05_seq">
+            <field name="name">action enreg_b05</field>
+            <field name="res_model">py.dacom.enreg_b05</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="enreg_b05_tree"/>            
+        </record> 
+        
+        <!--fin enreg_b05-->
+        <!-- enreg_b06-->
+		
+		<record model="ir.ui.view" id="enreg_b06_tree">
+            <field name="name">enreg_b06.tree</field>
+            <field name="model">py.dacom.enreg_b06</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="liste enreg_b06">
+                    <field name="L_Type_ Enreg"/>
+                    <field name="N_Num_Affilie"/>
+                    <field name="Periode"/>
+                    <field name="N_Nbr_Salaries"/>               
+                    <field name="N_T_Num_Imma"/>
+                    <field name="N_T_Jours_Declares"/>
+                    <field name="N_T_Salaire_Reel"/>
+                    <field name="N_T_Salaire_Plaf"/>
+                    <field name="N_T_Ctr"/>
+                </tree>
+            </field>
+        </record>
+        
+         <record model="ir.actions.act_window" id="action_enreg_b06_seq">
+            <field name="name">action enreg_b06</field>
+            <field name="res_model">py.dacom.enreg_b06</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="enreg_b06_tree"/>            
+        </record> 
+        
+        <!--fin enreg_b06-->
+		
+		<!--la class enreg_b00 -->
+       <record model="ir.ui.view" id="enreg_b00_tree">
+            <field name="name">enreg_b00.tree</field>
+            <field name="model">py.dacom.enreg_b00</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="liste enreg_b00">
+                    <field name="L_Type_EnregA00"/>
+                    <field name="N_Identif_TransfertA00"/>
+                    <field name="L_CatA00"/>
+                </tree>
+            </field>
+     </record>
+     
+         <record model="ir.actions.act_window" id="action_enreg_b00_seq">
+            <field name="name">action enreg_b00</field>
+            <field name="res_model">py.dacom.enreg_b00</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="enreg_b00_tree"/>            
+        </record> 
+       
+       <!--fin de la class enreg_b00 -->
+      <!--la class enreg_b01 -->
+       <record model="ir.ui.view" id="enreg_b01_tree">
+            <field name="name">enreg_b01.tree</field>
+            <field name="model">py.dacom.enreg_b01</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="liste enreg_b01">
+                    <field name="L_Type_EnregA01"/>
+                    <field name="N_Num_AffilieA01"/>
+                    <field name="L_PeriodeA01"/>
+                    <field name="L_Raison_SocialeA01"/>
+                    <field name="L_ActiviteA01"/>
+                    <field name="L_AdresseA01"/>
+                    <field name="L_VilleA01"/>
+                    <field name="C_Code_PostalA01"/>
+                    <field name="C_Code_AgenceA01"/>
+                    <field name="D_Date_EmissionA01"/>
+                    <field name="D_Date_ExigA01"/>
+                </tree>
+            </field>
+     </record>
+     
+         <record model="ir.actions.act_window" id="action_enreg_b01_seq">
+            <field name="name">action enreg_b01</field>
+            <field name="res_model">py.dacom.enreg_b01</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="enreg_b01_tree"/>            
+        </record> 
+       
+       <!--fin de la class enreg_b01 -->
+		
+			<!--Compteur periode 1 -->
+		<record id="seq_type_1" model="ir.sequence.type"> 
+  			<field name="name">REG Type_1</field> 
+  			<field name="code">reg_code_1</field> 
+		</record> 
+		<record id="seq_1" model="ir.sequence"> 
+    		<field name="name">reg_1</field> 
+    		<field name="code">reg_code_1</field> 
+    		<field name="prefix">REG</field> 
+    		<field name="padding">3</field> 
+		</record>
+			<!--fin Compteur periode 1 -->
+			<!--Compteur periode 2 -->
+		<record id="seq_type_2" model="ir.sequence.type"> 
+  			<field name="name">REG Type_2</field> 
+  			<field name="code">reg_code_2</field> 
+		</record> 
+		<record id="seq_2" model="ir.sequence"> 
+    		<field name="name">reg_2</field> 
+    		<field name="code">reg_code_2</field> 
+    		<field name="prefix">REG</field> 
+    		<field name="padding">3</field> 
+		</record>
+			<!--fin Compteur periode 2 -->
+			<!--Compteur periode 3 -->
+		<record id="seq_type_3" model="ir.sequence.type"> 
+  			<field name="name">REG Type_3</field> 
+  			<field name="code">reg_code_3</field> 
+		</record> 
+		<record id="seq_3" model="ir.sequence"> 
+    		<field name="name">reg_3</field> 
+    		<field name="code">reg_code_3</field> 
+    		<field name="prefix">REG</field> 
+    		<field name="padding">3</field> 
+		</record>
+			<!--fin Compteur periode 3 -->
+			<!--Compteur periode 4 -->
+		<record id="seq_type_4" model="ir.sequence.type"> 
+  			<field name="name">REG Type_4</field> 
+  			<field name="code">reg_code_4</field> 
+		</record> 
+		<record id="seq_4" model="ir.sequence"> 
+    		<field name="name">reg_4</field> 
+    		<field name="code">reg_code_4</field> 
+    		<field name="prefix">REG</field> 
+    		<field name="padding">3</field> 
+		</record>
+			<!--fin Compteur periode 4 -->
+			<!--Compteur periode 5 -->
+		<record id="seq_type_5" model="ir.sequence.type"> 
+  			<field name="name">REG Type_5</field> 
+  			<field name="code">reg_code_5</field> 
+		</record> 
+		<record id="seq_5" model="ir.sequence"> 
+    		<field name="name">reg_5</field> 
+    		<field name="code">reg_code_5</field> 
+    		<field name="prefix">REG</field> 
+    		<field name="padding">3</field> 
+		</record>
+			<!--fin Compteur periode 5 -->
+			<!--Compteur periode 6 -->
+		<record id="seq_type_6" model="ir.sequence.type"> 
+  			<field name="name">REG Type_6</field> 
+  			<field name="code">reg_code_6</field> 
+		</record> 
+		<record id="seq_6" model="ir.sequence"> 
+    		<field name="name">reg_6</field> 
+    		<field name="code">reg_code_6</field> 
+    		<field name="prefix">REG</field> 
+    		<field name="padding">3</field> 
+		</record>
+			<!--fin Compteur periode 6 -->
+			<!--Compteur periode 7 -->
+		<record id="seq_type_7" model="ir.sequence.type"> 
+  			<field name="name">REG Type_7</field> 
+  			<field name="code">reg_code_7</field> 
+		</record> 
+		<record id="seq_7" model="ir.sequence"> 
+    		<field name="name">reg_7</field> 
+    		<field name="code">reg_code_7</field> 
+    		<field name="prefix">REG</field> 
+    		<field name="padding">3</field> 
+		</record>
+			<!--fin Compteur periode 7 -->
+			<!--Compteur periode 8 -->
+		<record id="seq_type_8" model="ir.sequence.type"> 
+  			<field name="name">REG Type_8</field> 
+  			<field name="code">reg_code_8</field> 
+		</record> 
+		<record id="seq_8" model="ir.sequence"> 
+    		<field name="name">reg_8</field> 
+    		<field name="code">reg_code_8</field> 
+    		<field name="prefix">REG</field> 
+    		<field name="padding">3</field> 
+		</record>
+			<!--fin Compteur periode 8 -->
+			<!--Compteur periode 9 -->
+		<record id="seq_type_9" model="ir.sequence.type"> 
+  			<field name="name">REG Type_9</field> 
+  			<field name="code">reg_code_9</field> 
+		</record> 
+		<record id="seq_9" model="ir.sequence"> 
+    		<field name="name">reg_9</field> 
+    		<field name="code">reg_code_9</field> 
+    		<field name="prefix">REG</field> 
+    		<field name="padding">3</field> 
+		</record>
+			<!--fin Compteur periode 9 -->
+			<!--Compteur periode 10 -->
+		<record id="seq_type_10" model="ir.sequence.type"> 
+  			<field name="name">REG Type_10</field> 
+  			<field name="code">reg_code_10</field> 
+		</record> 
+		<record id="seq_10" model="ir.sequence"> 
+    		<field name="name">reg_10</field> 
+    		<field name="code">reg_code_10</field> 
+    		<field name="prefix">REG</field> 
+    		<field name="padding">3</field> 
+		</record>
+			<!--fin Compteur periode 10 -->
+			<!--Compteur periode 11 -->
+		<record id="seq_type_11" model="ir.sequence.type"> 
+  			<field name="name">REG Type_11</field> 
+  			<field name="code">reg_code_11</field> 
+		</record> 
+		<record id="seq_11" model="ir.sequence"> 
+    		<field name="name">reg_11</field> 
+    		<field name="code">reg_code_11</field> 
+    		<field name="prefix">REG</field> 
+    		<field name="padding">3</field> 
+		</record>
+			<!--fin Compteur periode 11 -->
+			<!--Compteur periode 12 -->
+		<record id="seq_type_12" model="ir.sequence.type"> 
+  			<field name="name">REG Type_12</field> 
+  			<field name="code">reg_code_12</field> 
+		</record> 
+		<record id="seq_12" model="ir.sequence"> 
+    		<field name="name">reg_12</field> 
+    		<field name="code">reg_code_12</field> 
+    		<field name="prefix">REG</field> 
+    		<field name="padding">3</field> 
+		</record>
+			<!--fin Compteur periode 12 -->
+		
+		
+		<!--test-->
+		<record model="ir.ui.view" id="test_tree">
+            <field name="name">test.tree</field>
+            <field name="model">py.dacom.message</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="liste test">
+                    <field name="message"/>
+                    <button string="erreur_method" name="erreur_method" type="object"/> 
+                    <button string="send_email" name="send_email" type="object"/>
+                    <button string="envoyer" name="envoyer" type="object"/>            
+                </tree>
+            </field>
+     </record>
+     
+         <record model="ir.actions.act_window" id="action_test_seq">
+            <field name="name">action test</field>
+            <field name="res_model">py.dacom.message</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="test_tree"/>            
+        </record> 
+		<!--fin test-->
+		
+		<!--erreur-->
+		<record model="ir.ui.view" id="erreurs_tree">
+            <field name="name">erreurs.tree</field>
+            <field name="model">py.dacom.erreurs</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="liste erreurs">
+                    <field name="erreurs"/> 
+                </tree>
+            </field>
+     </record>
+     
+         <record model="ir.actions.act_window" id="action_erreurs_seq">
+            <field name="name">action erreurs</field>
+            <field name="res_model">py.dacom.erreurs</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="erreurs_tree"/>            
+        </record> 
+		<!--fin erreur-->
+		
+		<!--periode-->
+        <record model="ir.actions.act_window" id="periode_list_action">
+            <field name="name">periode</field>
+            <field name="res_model">py.dacom.periode</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+       <record model="ir.ui.view" id="periode_tree">
+            <field name="name">periode.tree</field>
+            <field name="model">py.dacom.periode</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="periode" >
+                    <field name="periode" />
+                    <field name="type"  />
+                    <field name="num_declaration_comp"/>
+                </tree>
+            </field>
+    </record>
+        <record model="ir.ui.view" id="periode_form">
+            <field name="name">periode.form</field>
+            <field name="model">py.dacom.periode</field>
+            <field name="arch" type="xml">
+                <form string="Facture Import">
+                <header>
+                		<button name="action_draft_information" type="object"  string="Suivant" states="draft_information"/><!--, sent_import, progress_declaration, done_cloture"-->
+                		<button name="action_precedent_sent_import" type="object"  string="Precedent" states="sent_import" class="oe_highlight"/>
+                		<button name="action_sent_import" type="object"  string="Suivant" states="sent_import" class="oe_highlight"/>
+                		<button name="action_precedent_progress_declaration" type="object" string="Precedent" states="progress_declaration" class="oe_highlight"/>
+                		<button name="action_progress_declaration" type="object" string="Suivant" states="progress_declaration" class="oe_highlight"/>
+                		<!--<button name="action_done_cloture" type="object" string="Validate" states="done_cloture" class="oe_highlight"/>-->
+                		<button name="action_precedent_done_cloture" type="object" string="Precedent" states="done_cloture" class="oe_highlight"/>
+                		<button name="cloture" type="object" string="cloturer la Télédeclaration"  class="oe_highlight" context="{'cle_2':periode}" attrs="{'invisible': [('state','!=','done_cloture')]}"/>
+                        <button name="annuler" type="object" string="Annuler la Télédeclaration"  class="oe_highlight" context="{'cle_3':periode}" attrs="{'invisible': [('state','!=','done_cloture')]}"/>
+                		<field name="state" widget="statusbar"/>  <!--statusbar_visible="draft_information,sent_import,progress_declaration,done_cloture" statusbar_colors='{}'-->
+                </header>
+                <sheet>
+                    <group>
+                        <field name="periode" on_change="intialisation()" attrs="{'invisible': [('state','!=','draft_information')]}" />
+                        <field name="type" on_change="intialisation_type()" attrs="{'invisible': [('state','!=','draft_information')]}" />
+                    	<field name="num_declaration_comp" attrs="{'invisible': [('state','!=','draft_information')]}"/>
+                    	<field name="url" attrs="{'invisible': [('state','!=','sent_import')]}" />
+                    	<field name="url_ebds" attrs="{'invisible': [('state','!=','sent_import')]}" />
+                    	<field name="Validation" on_change="agenda_teledeclation(periode)"  context="{'cle_1':type}" attrs="{'invisible': [('state','!=','draft_information')]}"/>
+                    	<field name="Validation2" on_change="recup_periode(periode,url,url_ebds)" attrs="{'invisible': [('state','!=','sent_import')]}"/>
+                    	<field name="directive"  attrs="{'invisible': [('state','=','done_cloture')]}"/>             	
+                    </group>
+                    <notebook>
+                        <page string="fiche paie" attrs="{'invisible': [('state','!=','sent_import'),('state','!=','done_cloture')]}">
+                            <field name="periode_ids_1" widget="many2many" />
+                            
+                        </page>
+                        <page string="ebds" attrs="{'invisible': [('state','!=','sent_import'),('state','!=','done_cloture')]}">
+                        	<field name="periode_ids_11" widget="many2many" />
+                        	<field name="periode_ids_12" widget="many2many" />
+                            <field name="periode_ids_4" widget="many2many" />
+                        	<field name="periode_ids_13" widget="many2many" />                            
+                        </page>
+                        <page string="Teledeclaration" attrs="{'invisible': [('state','!=','progress_declaration'),('state','!=','done_cloture')]}">
+                        	<field name="periode_ids_14" widget="many2many" />
+                            <field name="periode_ids_15" widget="many2many" />
+                            <field name="periode_ids_3" widget="many2many" />
+                            <field name="periode_ids_5" widget="many2many" />
+                            <field name="periode_ids_7" widget="many2many" />
+                            <field name="periode_ids_9" widget="many2many" />
+                            <field name="periode_ids_10" widget="many2many" />
+                        </page> 
+                        <page string="Erreur" >
+                        	<field name="periode_ids_16" widget="many2many" attrs="{'invisible': [('state','=','done_cloture')]}" />                        
+                        </page>
+                    </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+       
+		
+		<!--fin de periode -->
+
+
+    <menuitem id="main_menu" name="Damancom"/>
+       <menuitem name="CNSS" id="cnss" parent="main_menu" />
+        <menuitem name="Import" id="import" parent="cnss" />
+        	<menuitem name="Fichier eBDS" id="fich_ebds" parent="import" action="action_import_edbs_seq"/>
+        	<menuitem name="Fichier paie"  id="fich_paie" parent="import" action="action_damancom_seq"/>
+        <menuitem name="Traitement" id="traite" parent="cnss"  />
+        	<menuitem name="Maj Personnel actif " id="present2" parent="traite" action="action_damancomba_seq"/>
+			<menuitem name="test" id="test_id" parent="traite" action="action_test_seq" />
+			<!--<menuitem name="recherche_perso" id="test_id1" parent="traite" action="action_damanco_seq" />-->
+			<menuitem name="enreg_b02" id="test_id3" parent="traite" action="action_enreg_b02_seq" />
+			<menuitem name="recherche_perso_2" id="recherche_perso_2_id" parent="traite" action="action_recherche_perso_2_seq"  />
+			<menuitem name="enreg_b02_2" id="test_id32" parent="traite" action="action_enreg_b02_2_seq" />
+			<menuitem name="enreg_b03" id="enreg_b03_id" parent="traite" action="action_enreg_b03_seq" />
+			<menuitem name="enreg_b04" id="enreg_b04_id" parent="traite" action="action_enreg_b04_seq" />
+			<menuitem name="agenda" id="periode_id" parent="traite" action="periode_list_action" />
+			
+
+    </data>
+</openerp>
