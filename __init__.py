@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import damancom
+import damankom
 
 
 

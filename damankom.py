@@ -8,7 +8,7 @@ import base64
 
 
 list_erreur = []
-erreur = {'cle_1' : list_erreur }
+erreur = {'cle_1' : list_erreur}
 
 
 class send_message(osv.Model):
@@ -129,6 +129,7 @@ class periode(osv.osv):
         values = {}
         while erreur.get('cle_1'): erreur.get('cle_1').pop()
         erreur_ids =self.pool.get('py.dacom.erreurs').erreur_method(cr , uid ,ids,context=None)
+        actuelle = self.search(cr, uid , [('periode', '=', periode_id)])
         values['value'] = {'Validation':False,
                             'periode_ids_16':[(6,0,erreur_ids)]
                                }
@@ -152,7 +153,7 @@ class periode(osv.osv):
                 erreur_ids =self.pool.get('py.dacom.erreurs').erreur_method(cr , uid ,ids,context=None)
                 values_agenda['value'] = {'periode_ids_16':[(6,0,erreur_ids)]}
             
-            if(periode.state == 'draft'  and context.get('cle_1') == False and actuelle == []):
+            if(periode.state == 'draft'  and context.get('cle_1') == False and len(actuelle) == 1):
                 print "nice"  
                 values_agenda['value'] = {}
             

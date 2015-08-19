@@ -1,15 +1,15 @@
 
 # -*- coding: utf-8 -*-
 {
-    'name': 'damancom',
+    'name': 'damankom',
     'version': '0.1',
-    'category': 'damancom',
+    'category': 'damankom',
     'description': """  
-               description damancom
+               description damankom
     """,
     'author': 'hb',
     'depends': ['base'],
-    'data': ['damancom_view.xml'],
+    'data': ['damankom_view.xml'],
     'installable': True,
     'auto_install': False,
 }
