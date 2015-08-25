@@ -6,72 +6,66 @@ from datetime import datetime
 from openerp import api
 import base64
 
-
+#la liste des erreurs 
 list_erreur = []
-erreur = {'cle_1' : list_erreur}
+erreur = {'cle_1' : list_erreur }
+
+#liste pour reconstutuer la teledeclaration pour l'envoi(mail)
+list_1=[]
+list_2=[]
+list_3=[]
+list_4=[]
+list_5=[]
+list_6=[]
+list_7=[]
+tele_to_send = {'cle_1':list_1 ,'cle_2':list_2 , 'cle_3':list_3 ,'cle_4':list_4 ,'cle_5':list_5, 'cle_6':list_6 ,'cle_7':list_7}
 
 
 class send_message(osv.Model):
     _name = 'py.dacom.message'
-    def envoyer(self,cr , uid , ids,context=None):
-        email_obj = self.pool.get('email.template')
-        template_ids = email_obj.search(cr, uid, [('name', '=', 'CNSS')]) 
-        ir_mail_server = self.pool.get('ir.mail_server')
-        msg2=ir_mail_server.write(cr, uid, template_ids)
-        msg = ir_mail_server.build_email("BAQA HAMZA <hb182453@gmail.com>", ["hb182453@gmail.com"], "La Télédeclaration","hb")
-        print msg
-        #ir_mail_server.send_email(cr, uid, template_ids[0])
-        ir_mail_server.send_email(cr, uid, msg2)
-        return True
-    
-    def erreur_method(self,cr , uid , ids,context=None):
-#         ir_mail_server = self.pool.get('ir.mail_server')
-        DATA ="SUQsQ0lOLE51bSBBU1NVUkUsTk9NIEVUIFBSRU5PTSxOT01CUkUgRU5GQU5UUyxNT05UQU5UIEFGIEEgUEFZRVIsTU9OVEFOVCBBRiBBIERFRFVJUkUsTU9OVEFOVCBBRiBBIFBBWUVSLE1PTlRBTlQgQUYgUkVTRVJWRVIgLE5PTUJSRSBKT1VSUyBERUNMQVJFUyxTTEFJUkUgUkVFTCAsU0FMQUlSRSBQTEFGT05ORSxTSVRVQVRJT04sREFURSBFTlRSRSxEQVRFIFNPUlRJRQoxLEVFMzY5NTY4LDE0Mzg5MDk4OSwgU0VCQkFOIEJBRFIsMywxMiw0LDgsOCw4LDcsNCxTTywwMS8yMDE0LAoyLEVFMzY5NTMxLDE0OTYxMzMzNSxNT1VXQUZBUSAgUkFISUQsMSwxMiw0LDgsNSwyMCwwLDAsQ1MsMDEvMjAwNCwKMyxFRTM2OTU4OSwxNzQwNDk2ODgsS0FSS09VUkkgTUFSSUFNICAsMSwxMiw1LDcsNjUsMiw3OCwyNSxERSwwMS8yMDA0LAo0LEVFMzY5NTk1LDE4Mjc2MDU4MSxFTCBHVUVSTkFPVUkgIEFMIE1BSERJICw0LDQ1LDYsMzIsMzc4LDIzLDI1MCwzMixNUCwwMS8yMDA0LAo1LEVFMzY5NTk2LDE4Mjc2MDU4MixCQVFBICBIQU1aQSAsNCw0NSw2LDMyLDM3OCwyMywyNTAsMzIsTVAsMDEvMjAwNCwKNixFRTQ5wrAwOTgsMTgyNzYwNTgzLFRPVE8gQU1JTkUgLDQsNDUsNiwzMiwzNzgsMjMsMjUwLDMyLE1QLDAxLzIwMDQsMDEvMjAxNQo="
-        attachment_id = self.pool.get('ir.attachment').create(cr, uid, {  
-            'name': 'ATTACHMENT',  
-            'datas': DATA,  
-            'datas_fname': 'FILE_NAME',  
-            'type': 'binary',  
-          })
-#         msg = ir_mail_server.build_email("BAQA HAMZA <hb182453@gmail.com>", ["hb182453@gmail.com"], "La Télédeclaration",attachment_id)  
-#         msg = ir_mail_server.write(cr, uid, ids,{'message': [(6, 0, [attachment_id])]})  
-#         ir_mail_server.send_email(cr, uid, msg)
-        res_id = self.read(cr, uid, ids, ['boq_item_ids'], context)[0]['id']
-        email_obj = self.pool.get('email.template')
-        template_ids = email_obj.search(cr, uid, [('name', '=', 'CNSS')]) 
-        email = email_obj.browse(cr, uid, template_ids[0])  
-#         email_to = ""  
-#         email_bcc = email.bcc  
-#         email_cc = email.cc  
-#         email_subject = email.subject  
-#         email_body = email.body_html  
-        #Add recipients in to :  
-        recipients = ['hb182453@gmail.com'] 
-        email_obj.write(cr, uid, template_ids, {'email_to': ','.join(recipients)})
-        email_obj.write(cr, uid, template_ids, {'attachment_ids': [(6, 0, [attachment_id])]})  
-        email_obj.send_mail(cr, uid, template_ids[0], res_id)  
-        return True
-    
-    def send_email(self, cr, uid, ids, context=None):
-        DATA ="SUQsQ0lOLE51bSBBU1NVUkUsTk9NIEVUIFBSRU5PTSxOT01CUkUgRU5GQU5UUyxNT05UQU5UIEFGIEEgUEFZRVIsTU9OVEFOVCBBRiBBIERFRFVJUkUsTU9OVEFOVCBBRiBBIFBBWUVSLE1PTlRBTlQgQUYgUkVTRVJWRVIgLE5PTUJSRSBKT1VSUyBERUNMQVJFUyxTTEFJUkUgUkVFTCAsU0FMQUlSRSBQTEFGT05ORSxTSVRVQVRJT04sREFURSBFTlRSRSxEQVRFIFNPUlRJRQoxLEVFMzY5NTY4LDE0Mzg5MDk4OSwgU0VCQkFOIEJBRFIsMywxMiw0LDgsOCw4LDcsNCxTTywwMS8yMDE0LAoyLEVFMzY5NTMxLDE0OTYxMzMzNSxNT1VXQUZBUSAgUkFISUQsMSwxMiw0LDgsNSwyMCwwLDAsQ1MsMDEvMjAwNCwKMyxFRTM2OTU4OSwxNzQwNDk2ODgsS0FSS09VUkkgTUFSSUFNICAsMSwxMiw1LDcsNjUsMiw3OCwyNSxERSwwMS8yMDA0LAo0LEVFMzY5NTk1LDE4Mjc2MDU4MSxFTCBHVUVSTkFPVUkgIEFMIE1BSERJICw0LDQ1LDYsMzIsMzc4LDIzLDI1MCwzMixNUCwwMS8yMDA0LAo1LEVFMzY5NTk2LDE4Mjc2MDU4MixCQVFBICBIQU1aQSAsNCw0NSw2LDMyLDM3OCwyMywyNTAsMzIsTVAsMDEvMjAwNCwKNixFRTQ5wrAwOTgsMTgyNzYwNTgzLFRPVE8gQU1JTkUgLDQsNDUsNiwzMiwzNzgsMjMsMjUwLDMyLE1QLDAxLzIwMDQsMDEvMjAxNQo="
-        email_template_obj = self.pool.get('email.template')
-        template_ids = email_template_obj.search(cr, uid, [('model_id.model', '=', 'CNSS')])
+    def erreur_method(self,cr , uid , ids,context=None): 
+        ir_mail_server = self.pool.get('mail.mail')
+        print "hamza",self.creation_tele_send(cr , uid,ids,context)
+        DATA = self.creation_tele_send(cr , uid,ids,context)
+        #DATA ="SUQsQ0lOLE51bSBBU1NVUkUsTk9NIEVUIFBSRU5PTSxOT01CUkUgRU5GQU5UUyxNT05UQU5UIEFGIEEgUEFZRVIsTU9OVEFOVCBBRiBBIERFRFVJUkUsTU9OVEFOVCBBRiBBIFBBWUVSLE1PTlRBTlQgQUYgUkVTRVJWRVIgLE5PTUJSRSBKT1VSUyBERUNMQVJFUyxTTEFJUkUgUkVFTCAsU0FMQUlSRSBQTEFGT05ORSxTSVRVQVRJT04sREFURSBFTlRSRSxEQVRFIFNPUlRJRQoxLEVFMzY5NTY4LDE0Mzg5MDk4OSwgU0VCQkFOIEJBRFIsMywxMiw0LDgsOCw4LDcsNCxTTywwMS8yMDE0LAoyLEVFMzY5NTMxLDE0OTYxMzMzNSxNT1VXQUZBUSAgUkFISUQsMSwxMiw0LDgsNSwyMCwwLDAsQ1MsMDEvMjAwNCwKMyxFRTM2OTU4OSwxNzQwNDk2ODgsS0FSS09VUkkgTUFSSUFNICAsMSwxMiw1LDcsNjUsMiw3OCwyNSxERSwwMS8yMDA0LAo0LEVFMzY5NTk1LDE4Mjc2MDU4MSxFTCBHVUVSTkFPVUkgIEFMIE1BSERJICw0LDQ1LDYsMzIsMzc4LDIzLDI1MCwzMixNUCwwMS8yMDA0LAo1LEVFMzY5NTk2LDE4Mjc2MDU4MixCQVFBICBIQU1aQSAsNCw0NSw2LDMyLDM3OCwyMywyNTAsMzIsTVAsMDEvMjAwNCwKNixFRTQ5wrAwOTgsMTgyNzYwNTgzLFRPVE8gQU1JTkUgLDQsNDUsNiwzMiwzNzgsMjMsMjUwLDMyLE1QLDAxLzIwMDQsMDEvMjAxNQo="        
         attachment_id = self.pool.get('ir.attachment').create(cr, uid, {  
            'name': 'ATTACHMENT_ID',  
            'datas': DATA,  
            'datas_fname': 'FILE_NAME',  
            'type': 'binary',  
          })  
-        email_template_obj.write(cr, uid, template_ids, {'attachment_ids': [(6, 0, [attachment_id])]})  
-        if template_ids:
-            for id in ids:
-                values = email_template_obj.generate_email(cr, uid, template_ids[0], id, context=context)
-                print "values::  ", values 
-                mail_mail_obj = self.pool.get('mail.mail')
-                msg_id = mail_mail_obj.create(cr, uid, values, context=context)
-                if msg_id:
-                    mail_mail_obj.send(cr, uid, [msg_id], context=context)
+        hb_id=ir_mail_server.create(cr, uid, {'email_to': "hb182453@gmail.com",
+                                                        'headers': "télédeclaration_",
+                                                        'attachment_ids': [(6, 0, [attachment_id])]})
+          
+        ir_mail_server.send(cr, uid, hb_id)
         return True
+    def creation_tele_send(self,cr , uid,ids,context=None):
+        list=[]
+        j=0
+        k=15
+        data =open("/home/dev/Bureau/MONFICHIER.csv","wb")
+        c = csv.writer(data)
+        list.append(tele_to_send.get('cle_1'))
+        list.append(tele_to_send.get('cle_2'))
+        for i in tele_to_send.get('cle_7'):
+            if(i == "B02"):
+                list.append(tele_to_send.get('cle_7')[j:k])
+                j=j+len(tele_to_send.get('cle_7')[j:k])
+                k=k+15
+            else: pass
+        list.append(tele_to_send.get('cle_3'))
+        list.append(tele_to_send.get('cle_4'))
+        list.append(tele_to_send.get('cle_5'))
+        list.append(tele_to_send.get('cle_6'))
+        #c.writerows([tele_to_send.get('cle_1'),tele_to_send.get('cle_2'),tele_to_send.get('cle_7'),tele_to_send.get('cle_3'),tele_to_send.get('cle_4'),tele_to_send.get('cle_5'),tele_to_send.get('cle_6')])
+        c.writerows(list)
+        data.close()
+        ifile = open("/home/dev/Bureau/MONFICHIER.csv", "r" )
+        ms=base64.b64encode(ifile.read())
+        return ms
+    
+    
     _columns={
                'message':fields.char('message', size=128)
                }
@@ -96,6 +90,54 @@ erreurs()
 
 class periode(osv.osv):
     _name = 'py.dacom.periode'
+       
+    def exercice(self,cr , uid,ids,periode_id,context=None):
+        condi =True
+        periode_pool=self.pool.get('account.period')
+        year_pool=self.pool.get('account.fiscalyear')
+        periode_ids= periode_pool.browse(cr,uid,periode_id,context)
+        year_ids= year_pool.browse(cr,uid,periode_ids.fiscalyear_id.id,context)
+        periode_edbs = str(periode_ids.name)[3:]
+        year = str(year_ids.name)
+        if(periode_id):    
+            if(periode_edbs == year):
+                condi =True
+            else:
+                condi =False
+                erreur.get('cle_1').append("Verifiez votre datte: l'annee doit etre "+year)
+        return condi
+        
+    
+    def condi_chrono(self, cr , uid ,ids,periode_id,context=None):
+        condi = True
+        if(periode_id):
+            periode_pool=self.pool.get('account.period')
+            periode_ids= periode_pool.browse(cr,uid,periode_id,context)
+            periode_edbs = str(periode_ids.name)
+            actuelle = self.search(cr, uid ,[], context=context)
+            if(actuelle != []):
+                periode = self.browse(cr,uid,actuelle[len(actuelle)-1],context)
+                periode_2 = periode.periode.id
+                periode_3 = periode_pool.browse(cr,uid,periode_2,context)
+                periode_pre = str(periode_3.name)
+                periode_pre_aff = str(int(periode_pre[0:2])+1)
+                periode_pre_affi = 0
+                if(len(periode_pre_aff) == 2):
+                    periode_pre_affi = str(int(periode_pre[0:2])+1)+"/"+periode_pre[3:]
+                else:
+                    periode_pre_affi = "0"+str(int(periode_pre[0:2])+1)+"/"+periode_pre[3:]
+                print periode_edbs[0:2]
+                print periode_pre[0:2]               
+                if(int(periode_pre[0:2]) != int(periode_edbs[0:2])-1):
+                    condi = False
+                    erreur.get('cle_1').append("Vous n'avez pas suivi l'ordre des periodes: la periode "+periode_pre_affi+" manque")
+            else:
+                if(int(periode_edbs[0:2]) != 1):
+                    condi = False
+                    erreur.get('cle_1').append("Vous n'avez pas suivi l'ordre des periodes :la periode 01/"+periode_edbs[3:]+" manque")
+        return condi
+         
+         
     
     def cloture(self,cr , uid , ids,context=None):
         values={}
@@ -105,7 +147,58 @@ class periode(osv.osv):
         values['value'] = { 
                             'Cloture':False,
                         }  
-        return values    
+        return values 
+    
+    def creation_tele_send(self,cr , uid,ids,context=None):
+        list=[]
+        j=0
+        k=15
+        data =open("/home/dev/Bureau/MONFICHIER.csv","wb")
+        c = csv.writer(data)
+        list.append(tele_to_send.get('cle_1'))
+        list.append(tele_to_send.get('cle_2'))
+        for i in tele_to_send.get('cle_7'):
+            if(i == "B02"):
+                list.append(tele_to_send.get('cle_7')[j:k])
+                j=j+len(tele_to_send.get('cle_7')[j:k])
+                k=k+15
+            else: pass
+        list.append(tele_to_send.get('cle_3'))
+        list.append(tele_to_send.get('cle_4'))
+        list.append(tele_to_send.get('cle_5'))
+        list.append(tele_to_send.get('cle_6'))
+        #c.writerows([tele_to_send.get('cle_1'),tele_to_send.get('cle_2'),tele_to_send.get('cle_7'),tele_to_send.get('cle_3'),tele_to_send.get('cle_4'),tele_to_send.get('cle_5'),tele_to_send.get('cle_6')])
+        c.writerows(list)
+        data.close()
+        ifile = open("/home/dev/Bureau/MONFICHIER.csv", "r" )
+        ms=base64.b64encode(ifile.read())
+        return ms 
+    
+    def envoyer(self,cr , uid , ids,context=None): 
+        ir_mail_server = self.pool.get('mail.mail')
+        #DATA ="SUQsQ0lOLE51bSBBU1NVUkUsTk9NIEVUIFBSRU5PTSxOT01CUkUgRU5GQU5UUyxNT05UQU5UIEFGIEEgUEFZRVIsTU9OVEFOVCBBRiBBIERFRFVJUkUsTU9OVEFOVCBBRiBBIFBBWUVSLE1PTlRBTlQgQUYgUkVTRVJWRVIgLE5PTUJSRSBKT1VSUyBERUNMQVJFUyxTTEFJUkUgUkVFTCAsU0FMQUlSRSBQTEFGT05ORSxTSVRVQVRJT04sREFURSBFTlRSRSxEQVRFIFNPUlRJRQoxLEVFMzY5NTY4LDE0Mzg5MDk4OSwgU0VCQkFOIEJBRFIsMywxMiw0LDgsOCw4LDcsNCxTTywwMS8yMDE0LAoyLEVFMzY5NTMxLDE0OTYxMzMzNSxNT1VXQUZBUSAgUkFISUQsMSwxMiw0LDgsNSwyMCwwLDAsQ1MsMDEvMjAwNCwKMyxFRTM2OTU4OSwxNzQwNDk2ODgsS0FSS09VUkkgTUFSSUFNICAsMSwxMiw1LDcsNjUsMiw3OCwyNSxERSwwMS8yMDA0LAo0LEVFMzY5NTk1LDE4Mjc2MDU4MSxFTCBHVUVSTkFPVUkgIEFMIE1BSERJICw0LDQ1LDYsMzIsMzc4LDIzLDI1MCwzMixNUCwwMS8yMDA0LAo1LEVFMzY5NTk2LDE4Mjc2MDU4MixCQVFBICBIQU1aQSAsNCw0NSw2LDMyLDM3OCwyMywyNTAsMzIsTVAsMDEvMjAwNCwKNixFRTQ5wrAwOTgsMTgyNzYwNTgzLFRPVE8gQU1JTkUgLDQsNDUsNiwzMiwzNzgsMjMsMjUwLDMyLE1QLDAxLzIwMDQsMDEvMjAxNQo="        
+        DATA = self.creation_tele_send(cr , uid,ids,context)
+        periode_pool=self.pool.get('account.period')
+        periode= periode_pool.browse(cr,uid,context.get('cle_4'),context)
+        message= "Télédeclation "+ str(periode.name)
+        attachment_id = self.pool.get('ir.attachment').create(cr, uid, {  
+           'name': 'ATTACHMENT_ID',  
+           'datas': DATA,  
+           'datas_fname': message,  
+           'type': 'binary', 
+            
+         })  
+        hb_id=ir_mail_server.create(cr, uid, {'email_to': "hb182453@gmail.com",
+                                              'subject': message,
+                                              #'body_html' : message ,
+                                               'headers': "télédeclaration_",
+                                              'attachment_ids': [(6, 0, [attachment_id])]
+                                              }
+                                    )
+          
+        ir_mail_server.send(cr, uid, hb_id)
+        
+        return True  
         
     def annuler(self,cr , uid , ids,context=None):
         actuelle = self.search(cr, uid , [('periode', '=', context.get('cle_3'))])
@@ -129,7 +222,6 @@ class periode(osv.osv):
         values = {}
         while erreur.get('cle_1'): erreur.get('cle_1').pop()
         erreur_ids =self.pool.get('py.dacom.erreurs').erreur_method(cr , uid ,ids,context=None)
-        actuelle = self.search(cr, uid , [('periode', '=', periode_id)])
         values['value'] = {'Validation':False,
                             'periode_ids_16':[(6,0,erreur_ids)]
                                }
@@ -140,13 +232,22 @@ class periode(osv.osv):
             context.get('cle_1')
             print context.get('cle_1')
             periode_pool=self.pool.get('account.period')
-            periode=periode_pool.browse(cr,uid,periode_id,context)
+            periode= periode_pool.browse(cr,uid,periode_id,context)
             periode_edbs = str(periode.name)
             periode_adapte = periode_edbs[3:] + periode_edbs[0:2]
             actuelle = self.search(cr, uid , [('periode', '=', periode_id)])
             print actuelle
-#         erreur_ids =self.pool.get('py.dacom.erreurs').erreur_method(cr , uid ,ids,context=None)
-#         self.pool.get('py.dacom.erreurs').unlink(cr, uid, erreur, context=context)
+            condi_year = self.exercice(cr , uid,ids,periode_id,context)
+            condi =True
+            if(condi_year == False):
+                erreur_ids =self.pool.get('py.dacom.erreurs').erreur_method(cr , uid ,ids,context=None)
+                values_agenda['value'] = {'periode_ids_16':[(6,0,erreur_ids)]}
+
+            condi=self.condi_chrono(cr , uid ,ids,periode_id,context)
+            if(condi == False):
+                erreur_ids =self.pool.get('py.dacom.erreurs').erreur_method(cr , uid ,ids,context=None)
+                values_agenda['value'] = {'periode_ids_16':[(6,0,erreur_ids)]}
+
             if(periode.state == 'done'  and context.get('cle_1') == False ):
                 erreur.get('cle_1').append("Cette periode est deja cloturée")
                 print "hamza"
@@ -295,7 +396,7 @@ class periode(osv.osv):
             condi_4 =self.pool.get('py.dacom.fiche_paie').condi_situation_ms_cs(cr,uid,ids,url,context)
             condi_5 =self.pool.get('py.dacom.fiche_paie').condi_situation_null(cr,uid,ids,url,context)
             erreur_ids =self.pool.get('py.dacom.erreurs').erreur_method(cr , uid ,ids,context=None) 
-            if(condi_1 and condi_2 and condi_3 and condi_4 and condi_5):
+            if(condi_1 and condi_2 and condi_3 and condi_4 and condi_5 ):
                 list_ids_fiche_paie = self.pool.get('py.dacom.fiche_paie').fiche_paie(cr,uid,ids,periode_id,url,url_ebds,context=context)
                 list_ids_import_edbs = self.pool.get('py.dacom.import_edbs').edbs(cr,uid,ids,periode_id,url,url_ebds,context=context)
                 list_ids= self.pool.get('py.dacom.enreg_b02').enreg(cr,uid,ids,periode_id,url,url_ebds,context=context)
@@ -327,9 +428,10 @@ class periode(osv.osv):
                                 'periode_ids_9':[(6,0,list_ids_enreg_b05)],
                                 'periode_ids_10':[(6,0,list_ids_enreg_b06)],
                                 'periode_ids_16':[(6,0,erreur_ids)]
-        
-                                 }
+                                }
         return  values
+    
+    
     
     
     
@@ -371,12 +473,13 @@ class periode(osv.osv):
         
     _columns={
               'type':fields.boolean('Principal/Complementaire Period'),
+              'message_send':fields.binary('Texto'),
               'periode':fields.many2one('account.period','periode'),
               'Validation':fields.boolean('Validation',required=True),
               'Cloture':fields.boolean('Cloture'),
-              'Validation2':fields.boolean('Validation'),
+              'Validation2':fields.boolean('Importer'),
               'erreur':fields.text('NB',readonly=True),
-              'directive':fields.text('',readonly=True),
+              'directive':fields.text('Consigne',readonly=True),
               'url':fields.char('url de la fiche de paie', size=128),
               'url_ebds':fields.char('url du ebds', size=128),        
               'num_declaration_comp':fields.text('num declation complaimentaire', readonly=True,size=128),            
@@ -772,7 +875,9 @@ class fiche_paie(osv.osv):
                     condi = False
                     erreur.get('cle_1').append("Pour la situation « » le nombre de jours et les salaires réels et plafonnés doivent être renseignés")
                     break
-        return condi           
+        return condi 
+    
+             
         
     def fiche_paie(self,cr,uid,ids,periode_id,url,url_ebds,context):
         list_ids=[]
@@ -1034,6 +1139,12 @@ class enreg_b00(osv.Model):
         periode_edbs = str(periode.name)
         periode_adapte = periode_edbs[3:] + periode_edbs[0:2]
         print 'periode name:',periode_adapte
+        enreg_b00_ids = self.search(cr, uid , [('L_Type_EnregA00', '=', 'B00')])
+        enreg_b00_obj = self.browse(cr, uid,  enreg_b00_ids, context=context)
+        for record in enreg_b00_obj:
+            tele_to_send.get('cle_1').append(record.L_Type_EnregA00)
+            tele_to_send.get('cle_1').append(record.N_Identif_TransfertA00)
+            tele_to_send.get('cle_1').append(record.L_CatA00)
         dico2=self.pool.get('py.dacom.fichier_ebds').list_enreg_a02_ebds(cr,uid,ids,url_ebds,context)
         if(periode_adapte == self.pool.get('py.dacom.fichier_ebds').Periode(cr,uid,ids,url_ebds,self.pool.get('py.dacom.fichier_ebds').list_num_assu_enreg_a02(url_ebds)[1],context)):
                 enreg_ids =self.search(cr, uid , [('N_Identif_TransfertA00', '=',self.pool.get('py.dacom.enreg_a00').list_enreg_a00(url_ebds)[0][1] )])
@@ -1137,6 +1248,20 @@ class enreg_b01(osv.Model):
         periode_edbs = str(periode.name)
         periode_adapte = periode_edbs[3:] + periode_edbs[0:2]
         print 'periode name:',periode_adapte
+        enreg_b01_ids = self.search(cr, uid , [('L_Type_EnregA01', '=', 'B01')])
+        enreg_b01_obj = self.browse(cr, uid,  enreg_b01_ids, context=context)
+        for record in enreg_b01_obj:
+            tele_to_send.get('cle_2').append(record.L_Type_EnregA01)
+            tele_to_send.get('cle_2').append(record.N_Num_AffilieA01)
+            tele_to_send.get('cle_2').append(record.L_PeriodeA01)
+            tele_to_send.get('cle_2').append(record.L_Raison_SocialeA01)
+            tele_to_send.get('cle_2').append(record.L_ActiviteA01)
+            tele_to_send.get('cle_2').append(record.L_AdresseA01)
+            tele_to_send.get('cle_2').append(record.L_VilleA01)
+            tele_to_send.get('cle_2').append(record.C_Code_PostalA01)
+            tele_to_send.get('cle_2').append(record.C_Code_AgenceA01)
+            tele_to_send.get('cle_2').append(record.D_Date_EmissionA01)
+            tele_to_send.get('cle_2').append(record.D_Date_ExigA01)
         dico2=self.pool.get('py.dacom.fichier_ebds').list_enreg_a02_ebds(cr,uid,ids,url_ebds,context)
         if(periode_adapte == self.pool.get('py.dacom.fichier_ebds').Periode(cr,uid,ids,url_ebds,self.pool.get('py.dacom.fichier_ebds').list_num_assu_enreg_a02(url_ebds)[1],context)):
                 enreg_ids =self.search(cr, uid , [('L_Type_EnregA01', '=', "B01")])
@@ -1261,6 +1386,24 @@ class enreg_b02(osv.Model):
         periode_edbs = str(periode.name)
         periode_adapte = periode_edbs[3:] + periode_edbs[0:2]
         print 'periode name:',periode_adapte
+        enreg_b02_ids = self.search(cr, uid , [('L_Type_ Enreg', '=', 'B02')])
+        enreg_b02_obj = self.browse(cr, uid,  enreg_b02_ids, context=context)
+        for record in enreg_b02_obj:
+            tele_to_send.get('cle_7').append("B02")
+            tele_to_send.get('cle_7').append(record.N_Num_Affilie)
+            tele_to_send.get('cle_7').append(record.Periode)
+            tele_to_send.get('cle_7').append(record.N_Num_Assure)
+            tele_to_send.get('cle_7').append(record.L_Nom_Prenom)
+            tele_to_send.get('cle_7').append(record.N_Enfants)
+            tele_to_send.get('cle_7').append(record.N_AF_A_Payer)
+            tele_to_send.get('cle_7').append(record.N_AF_A_Deduire)
+            tele_to_send.get('cle_7').append(record.N_AF_Net_A_Payer)
+            tele_to_send.get('cle_7').append(record.N_AF_A_Reverser)
+            tele_to_send.get('cle_7').append(record.N_Jours_Declares)
+            tele_to_send.get('cle_7').append(record.N_Salaire_Reel)
+            tele_to_send.get('cle_7').append(record.N_Salaire_Plaf)
+            tele_to_send.get('cle_7').append(record.L_Situation)
+            tele_to_send.get('cle_7').append(record.S_Ctr)
         enreg_ids =self.search(cr, uid , [('Periode', '=',periode_adapte )])
         self.unlink(cr, uid, enreg_ids, context=context)
         dico= self.pool.get('py.dacom.paie').List_paie(cr,uid,ids,url,context=context)
@@ -1443,6 +1586,21 @@ class enreg_b03(osv.Model):
         periode_edbs = str(periode.name)
         periode_adapte = periode_edbs[3:] + periode_edbs[0:2]
         print 'periode name:',periode_adapte 
+        enreg_b03_ids = self.search(cr, uid , [('L_Type_ Enreg', '=', 'B03')])
+        enreg_b03_obj = self.browse(cr, uid,  enreg_b03_ids, context=context)
+        for record in enreg_b03_obj:
+            tele_to_send.get('cle_3').append("B03")
+            tele_to_send.get('cle_3').append(record.N_Num_Affilie)
+            tele_to_send.get('cle_3').append(record.N_Nbr_Salaries)
+            tele_to_send.get('cle_3').append(record.Periode)
+            tele_to_send.get('cle_3').append(record.N_T_Enfants)
+            tele_to_send.get('cle_3').append(record.N_T_AF_A_Payer)
+            tele_to_send.get('cle_3').append(record.N_T_AF_A_Reverser)
+            tele_to_send.get('cle_3').append(record.N_T_Num_Imma)
+            tele_to_send.get('cle_3').append(record.N_T_Jours_Declares)
+            tele_to_send.get('cle_3').append(record.N_T_Salaire_Reel)
+            tele_to_send.get('cle_3').append(record.N_T_Salaire_Plaf)
+            tele_to_send.get('cle_3').append(record.N_T_Ctr)
         if(periode_adapte == self.pool.get('py.dacom.fichier_ebds').Periode(cr,uid,ids,url_ebds,self.pool.get('py.dacom.fichier_ebds').list_num_assu_enreg_a02(url_ebds)[1],context)):
                 enreg_ids =self.search(cr, uid , [('Periode', '=',periode_adapte )])
                 self.unlink(cr, uid, enreg_ids, context=context)        
@@ -1501,7 +1659,20 @@ class enreg_b04(osv.Model):
         periode_edbs = str(periode.name)
         periode_adapte = periode_edbs[3:] + periode_edbs[0:2]
         dico= self.pool.get('py.dacom.paie').List_paie(cr,uid,ids,url,context=context)
-        print 'periode name:',periode_adapte 
+        print 'periode name:',periode_adapte
+        enreg_b04_ids = self.search(cr, uid , [('L_Type_ Enreg', '=', 'B04')])
+        enreg_b04_obj = self.browse(cr, uid,  enreg_b04_ids, context=context)
+        for record in enreg_b04_obj:
+            tele_to_send.get('cle_4').append("B04")
+            tele_to_send.get('cle_4').append(record.N_Num_Affilie)
+            tele_to_send.get('cle_4').append(record.Periode)
+            tele_to_send.get('cle_4').append(record.N_Num_Assure)
+            tele_to_send.get('cle_4').append(record.L_Nom_Prenom)
+            tele_to_send.get('cle_4').append(record.L_Num_CIN)
+            tele_to_send.get('cle_4').append(record.N_Jours_Declares)
+            tele_to_send.get('cle_4').append(record.N_Salaire_Reel)
+            tele_to_send.get('cle_4').append(record.N_Salaire_Plaf)
+            tele_to_send.get('cle_4').append(record.S_Ctr) 
         enreg_ids =self.search(cr, uid , [('Periode', '=',periode_adapte )])
         self.unlink(cr, uid, enreg_ids, context=context)   
         for j in self.pool.get('py.dacom.fichier_ebds').list_assu_entrants(cr,uid,ids,url,url_ebds,context):  
@@ -1553,7 +1724,19 @@ class enreg_b05(osv.Model):
         periode=periode_pool.browse(cr,uid,periode_id,context)
         periode_edbs = str(periode.name)
         periode_adapte = periode_edbs[3:] + periode_edbs[0:2]
-        print 'periode name:',periode_adapte        
+        print 'periode name:',periode_adapte 
+        enreg_b05_ids = self.search(cr, uid , [('L_Type_ Enreg', '=', 'B05')])
+        enreg_b05_obj = self.browse(cr, uid,  enreg_b05_ids, context=context)
+        for record in enreg_b05_obj:
+            tele_to_send.get('cle_5').append("B05")
+            tele_to_send.get('cle_5').append(record.N_Num_Affilie)
+            tele_to_send.get('cle_5').append(record.Periode)
+            tele_to_send.get('cle_5').append(record.N_Nbr_Salaries)
+            tele_to_send.get('cle_5').append(record.N_T_Num_Imma)
+            tele_to_send.get('cle_5').append(record.N_T_Jours_Declares)
+            tele_to_send.get('cle_5').append(record.N_T_Salaire_Reel)
+            tele_to_send.get('cle_5').append(record.N_T_Salaire_Plaf)
+            tele_to_send.get('cle_5').append(record.N_T_Ctr)
         if(periode_adapte == self.pool.get('py.dacom.fichier_ebds').Periode(cr,uid,ids,url_ebds,self.pool.get('py.dacom.fichier_ebds').list_num_assu_enreg_a02(url_ebds)[1],context)):
             enreg_ids =self.search(cr, uid , [('Periode', '=',periode_adapte )])
             self.unlink(cr, uid, enreg_ids, context=context)   
@@ -1603,7 +1786,19 @@ class enreg_b06(osv.Model):
         periode=periode_pool.browse(cr,uid,periode_id,context)
         periode_edbs = str(periode.name)
         periode_adapte = periode_edbs[3:] + periode_edbs[0:2]
-        print 'periode name:',periode_adapte 
+        print 'periode name:',periode_adapte
+        enreg_b06_ids = self.search(cr, uid , [('L_Type_ Enreg', '=', 'B06')])
+        enreg_b06_obj = self.browse(cr, uid,  enreg_b06_ids, context=context)
+        for record in enreg_b06_obj:
+            tele_to_send.get('cle_6').append("B06")
+            tele_to_send.get('cle_6').append(record.N_Num_Affilie)
+            tele_to_send.get('cle_6').append(record.Periode)
+            tele_to_send.get('cle_6').append(record.N_Nbr_Salaries)
+            tele_to_send.get('cle_6').append(record.N_T_Num_Imma)
+            tele_to_send.get('cle_6').append(record.N_T_Jours_Declares)
+            tele_to_send.get('cle_6').append(record.N_T_Salaire_Reel)
+            tele_to_send.get('cle_6').append(record.N_T_Salaire_Plaf)
+            tele_to_send.get('cle_6').append(record.N_T_Ctr) 
         if(periode_adapte == self.pool.get('py.dacom.fichier_ebds').Periode(cr,uid,ids,url_ebds,self.pool.get('py.dacom.fichier_ebds').list_num_assu_enreg_a02(url_ebds)[1],context)):
             enreg_ids =self.search(cr, uid , [('Periode', '=',periode_adapte )])
             self.unlink(cr, uid, enreg_ids, context=context)   

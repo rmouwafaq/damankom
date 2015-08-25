@@ -707,8 +707,7 @@
                 <tree string="liste test">
                     <field name="message"/>
                     <button string="erreur_method" name="erreur_method" type="object"/> 
-                    <button string="send_email" name="send_email" type="object"/>
-                    <button string="envoyer" name="envoyer" type="object"/>            
+                    <button string="coder" name="coder" type="object"/>
                 </tree>
             </field>
      </record>
@@ -777,6 +776,7 @@
                 		<button name="action_precedent_done_cloture" type="object" string="Precedent" states="done_cloture" class="oe_highlight"/>
                 		<button name="cloture" type="object" string="cloturer la Télédeclaration"  class="oe_highlight" context="{'cle_2':periode}" attrs="{'invisible': [('state','!=','done_cloture')]}"/>
                         <button name="annuler" type="object" string="Annuler la Télédeclaration"  class="oe_highlight" context="{'cle_3':periode}" attrs="{'invisible': [('state','!=','done_cloture')]}"/>
+                		<button name="envoyer" type="object" string="envoyer la Télédeclaration"  class="oe_highlight" context="{'cle_4':periode}" attrs="{'invisible': [('state','!=','done_cloture')]}"/>
                 		<field name="state" widget="statusbar"/>  <!--statusbar_visible="draft_information,sent_import,progress_declaration,done_cloture" statusbar_colors='{}'-->
                 </header>
                 <sheet>
@@ -788,6 +788,7 @@
                     	<field name="url_ebds" attrs="{'invisible': [('state','!=','sent_import')]}" />
                     	<field name="Validation" on_change="agenda_teledeclation(periode)"  context="{'cle_1':type}" attrs="{'invisible': [('state','!=','draft_information')]}"/>
                     	<field name="Validation2" on_change="recup_periode(periode,url,url_ebds)" attrs="{'invisible': [('state','!=','sent_import')]}"/>
+                    	<!--<button name="Importer" type="object" string="Importer"  class="oe_highlight" context="{'cle_1':periode,'cle_2':url, 'cle_3':url_ebds}" attrs="{'invisible': [('state','!=','sent_import')]}"/>-->
                     	<field name="directive"  attrs="{'invisible': [('state','=','done_cloture')]}"/>             	
                     </group>
                     <notebook>
