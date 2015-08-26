@@ -6,6 +6,9 @@ from datetime import datetime
 from openerp import api
 import base64
 
+#dictionnaire des données
+data = {'email' : "hb182453@gmail.com" , 'smig': "1500" }
+
 #la liste des erreurs 
 list_erreur = []
 erreur = {'cle_1' : list_erreur }
@@ -21,54 +24,6 @@ list_7=[]
 tele_to_send = {'cle_1':list_1 ,'cle_2':list_2 , 'cle_3':list_3 ,'cle_4':list_4 ,'cle_5':list_5, 'cle_6':list_6 ,'cle_7':list_7}
 
 
-class send_message(osv.Model):
-    _name = 'py.dacom.message'
-    def erreur_method(self,cr , uid , ids,context=None): 
-        ir_mail_server = self.pool.get('mail.mail')
-        print "hamza",self.creation_tele_send(cr , uid,ids,context)
-        DATA = self.creation_tele_send(cr , uid,ids,context)
-        #DATA ="SUQsQ0lOLE51bSBBU1NVUkUsTk9NIEVUIFBSRU5PTSxOT01CUkUgRU5GQU5UUyxNT05UQU5UIEFGIEEgUEFZRVIsTU9OVEFOVCBBRiBBIERFRFVJUkUsTU9OVEFOVCBBRiBBIFBBWUVSLE1PTlRBTlQgQUYgUkVTRVJWRVIgLE5PTUJSRSBKT1VSUyBERUNMQVJFUyxTTEFJUkUgUkVFTCAsU0FMQUlSRSBQTEFGT05ORSxTSVRVQVRJT04sREFURSBFTlRSRSxEQVRFIFNPUlRJRQoxLEVFMzY5NTY4LDE0Mzg5MDk4OSwgU0VCQkFOIEJBRFIsMywxMiw0LDgsOCw4LDcsNCxTTywwMS8yMDE0LAoyLEVFMzY5NTMxLDE0OTYxMzMzNSxNT1VXQUZBUSAgUkFISUQsMSwxMiw0LDgsNSwyMCwwLDAsQ1MsMDEvMjAwNCwKMyxFRTM2OTU4OSwxNzQwNDk2ODgsS0FSS09VUkkgTUFSSUFNICAsMSwxMiw1LDcsNjUsMiw3OCwyNSxERSwwMS8yMDA0LAo0LEVFMzY5NTk1LDE4Mjc2MDU4MSxFTCBHVUVSTkFPVUkgIEFMIE1BSERJICw0LDQ1LDYsMzIsMzc4LDIzLDI1MCwzMixNUCwwMS8yMDA0LAo1LEVFMzY5NTk2LDE4Mjc2MDU4MixCQVFBICBIQU1aQSAsNCw0NSw2LDMyLDM3OCwyMywyNTAsMzIsTVAsMDEvMjAwNCwKNixFRTQ5wrAwOTgsMTgyNzYwNTgzLFRPVE8gQU1JTkUgLDQsNDUsNiwzMiwzNzgsMjMsMjUwLDMyLE1QLDAxLzIwMDQsMDEvMjAxNQo="        
-        attachment_id = self.pool.get('ir.attachment').create(cr, uid, {  
-           'name': 'ATTACHMENT_ID',  
-           'datas': DATA,  
-           'datas_fname': 'FILE_NAME',  
-           'type': 'binary',  
-         })  
-        hb_id=ir_mail_server.create(cr, uid, {'email_to': "hb182453@gmail.com",
-                                                        'headers': "télédeclaration_",
-                                                        'attachment_ids': [(6, 0, [attachment_id])]})
-          
-        ir_mail_server.send(cr, uid, hb_id)
-        return True
-    def creation_tele_send(self,cr , uid,ids,context=None):
-        list=[]
-        j=0
-        k=15
-        data =open("/home/dev/Bureau/MONFICHIER.csv","wb")
-        c = csv.writer(data)
-        list.append(tele_to_send.get('cle_1'))
-        list.append(tele_to_send.get('cle_2'))
-        for i in tele_to_send.get('cle_7'):
-            if(i == "B02"):
-                list.append(tele_to_send.get('cle_7')[j:k])
-                j=j+len(tele_to_send.get('cle_7')[j:k])
-                k=k+15
-            else: pass
-        list.append(tele_to_send.get('cle_3'))
-        list.append(tele_to_send.get('cle_4'))
-        list.append(tele_to_send.get('cle_5'))
-        list.append(tele_to_send.get('cle_6'))
-        #c.writerows([tele_to_send.get('cle_1'),tele_to_send.get('cle_2'),tele_to_send.get('cle_7'),tele_to_send.get('cle_3'),tele_to_send.get('cle_4'),tele_to_send.get('cle_5'),tele_to_send.get('cle_6')])
-        c.writerows(list)
-        data.close()
-        ifile = open("/home/dev/Bureau/MONFICHIER.csv", "r" )
-        ms=base64.b64encode(ifile.read())
-        return ms
-    
-    
-    _columns={
-               'message':fields.char('message', size=128)
-               }
 
 class erreurs(osv.Model):
     _name = 'py.dacom.erreurs'
@@ -108,7 +63,8 @@ class periode(osv.osv):
         return condi
         
     
-    def condi_chrono(self, cr , uid ,ids,periode_id,context=None):
+    def condi_chrono(self, cr , uid ,ids,periode_id,type,context=None):
+        print "le type est :",type
         condi = True
         if(periode_id):
             periode_pool=self.pool.get('account.period')
@@ -122,15 +78,19 @@ class periode(osv.osv):
                 periode_pre = str(periode_3.name)
                 periode_pre_aff = str(int(periode_pre[0:2])+1)
                 periode_pre_affi = 0
-                if(len(periode_pre_aff) == 2):
-                    periode_pre_affi = str(int(periode_pre[0:2])+1)+"/"+periode_pre[3:]
+                if(int(periode_pre[0:2]) == int(periode_edbs[0:2]) and type == True):
+                    print "c fait"
+                    condi = True
                 else:
-                    periode_pre_affi = "0"+str(int(periode_pre[0:2])+1)+"/"+periode_pre[3:]
-                print periode_edbs[0:2]
-                print periode_pre[0:2]               
-                if(int(periode_pre[0:2]) != int(periode_edbs[0:2])-1):
-                    condi = False
-                    erreur.get('cle_1').append("Vous n'avez pas suivi l'ordre des periodes: la periode "+periode_pre_affi+" manque")
+                    if(len(periode_pre_aff) == 2):
+                        periode_pre_affi = str(int(periode_pre[0:2])+1)+"/"+periode_pre[3:]
+                    else:
+                        periode_pre_affi = "0"+str(int(periode_pre[0:2])+1)+"/"+periode_pre[3:]
+                    print periode_edbs[0:2]
+                    print periode_pre[0:2]               
+                    if(int(periode_pre[0:2]) != int(periode_edbs[0:2])-1):
+                        condi = False
+                        erreur.get('cle_1').append("Vous n'avez pas suivi l'ordre des periodes: la periode "+periode_pre_affi+" manque")
             else:
                 if(int(periode_edbs[0:2]) != 1):
                     condi = False
@@ -188,7 +148,7 @@ class periode(osv.osv):
            'type': 'binary', 
             
          })  
-        hb_id=ir_mail_server.create(cr, uid, {'email_to': "hb182453@gmail.com",
+        hb_id=ir_mail_server.create(cr, uid, {'email_to': data.get('email'),
                                               'subject': message,
                                               #'body_html' : message ,
                                                'headers': "télédeclaration_",
@@ -243,7 +203,7 @@ class periode(osv.osv):
                 erreur_ids =self.pool.get('py.dacom.erreurs').erreur_method(cr , uid ,ids,context=None)
                 values_agenda['value'] = {'periode_ids_16':[(6,0,erreur_ids)]}
 
-            condi=self.condi_chrono(cr , uid ,ids,periode_id,context)
+            condi=self.condi_chrono(cr , uid ,ids,periode_id,context.get('cle_1'),context)
             if(condi == False):
                 erreur_ids =self.pool.get('py.dacom.erreurs').erreur_method(cr , uid ,ids,context=None)
                 values_agenda['value'] = {'periode_ids_16':[(6,0,erreur_ids)]}
@@ -395,8 +355,9 @@ class periode(osv.osv):
             condi_3 =self.pool.get('py.dacom.fiche_paie').condi_sal_pla(cr,uid,ids,url,context)
             condi_4 =self.pool.get('py.dacom.fiche_paie').condi_situation_ms_cs(cr,uid,ids,url,context)
             condi_5 =self.pool.get('py.dacom.fiche_paie').condi_situation_null(cr,uid,ids,url,context)
+            condi_6 =self.pool.get('py.dacom.fiche_paie').condi_smig(cr,uid,ids,url,context)
             erreur_ids =self.pool.get('py.dacom.erreurs').erreur_method(cr , uid ,ids,context=None) 
-            if(condi_1 and condi_2 and condi_3 and condi_4 and condi_5 ):
+            if(condi_1 and condi_2 and condi_3 and condi_4 and condi_5 and condi_6):
                 list_ids_fiche_paie = self.pool.get('py.dacom.fiche_paie').fiche_paie(cr,uid,ids,periode_id,url,url_ebds,context=context)
                 list_ids_import_edbs = self.pool.get('py.dacom.import_edbs').edbs(cr,uid,ids,periode_id,url,url_ebds,context=context)
                 list_ids= self.pool.get('py.dacom.enreg_b02').enreg(cr,uid,ids,periode_id,url,url_ebds,context=context)
@@ -819,6 +780,20 @@ class List_paie(osv.osv):
 class fiche_paie(osv.osv):
    
     _name='py.dacom.fiche_paie'
+    
+    def condi_smig(self,cr,uid,ids,url,context):
+        condi =True
+        k=0
+        dico= self.pool.get('py.dacom.paie').List_paie(cr,uid,ids,url,context=context)
+        for i in dico['list_nbr_jour_dec_paie'][1:]:
+            k=k+1
+            cal=(data.get('smig')/26)*(int(i)-1)
+            if(cal >= dico['list_sal_reel_paie'][k] ):
+                condi = False
+                erreur.get('cle_1').append("si n est le nombre de jours déclarés le salaire doit être supérieur strictement au SMIG en vigueur/26*(n-1).")
+                break
+        return condi    
+        
     
     def condi_nbr_jours(self,cr,uid,ids,url,context):
         condi = True

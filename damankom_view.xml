@@ -698,28 +698,6 @@
 			<!--fin Compteur periode 12 -->
 		
 		
-		<!--test-->
-		<record model="ir.ui.view" id="test_tree">
-            <field name="name">test.tree</field>
-            <field name="model">py.dacom.message</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <tree string="liste test">
-                    <field name="message"/>
-                    <button string="erreur_method" name="erreur_method" type="object"/> 
-                    <button string="coder" name="coder" type="object"/>
-                </tree>
-            </field>
-     </record>
-     
-         <record model="ir.actions.act_window" id="action_test_seq">
-            <field name="name">action test</field>
-            <field name="res_model">py.dacom.message</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="test_tree"/>            
-        </record> 
-		<!--fin test-->
 		
 		<!--erreur-->
 		<record model="ir.ui.view" id="erreurs_tree">
@@ -831,7 +809,6 @@
         	<menuitem name="Fichier paie"  id="fich_paie" parent="import" action="action_damancom_seq"/>
         <menuitem name="Traitement" id="traite" parent="cnss"  />
         	<menuitem name="Maj Personnel actif " id="present2" parent="traite" action="action_damancomba_seq"/>
-			<menuitem name="test" id="test_id" parent="traite" action="action_test_seq" />
 			<!--<menuitem name="recherche_perso" id="test_id1" parent="traite" action="action_damanco_seq" />-->
 			<menuitem name="enreg_b02" id="test_id3" parent="traite" action="action_enreg_b02_seq" />
 			<menuitem name="recherche_perso_2" id="recherche_perso_2_id" parent="traite" action="action_recherche_perso_2_seq"  />
